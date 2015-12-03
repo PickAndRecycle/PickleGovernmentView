@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Pick and Recycle - Government View</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+		<link href = "style.css" rel = "stylesheet">
+		<script async defer
+	      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDyurQ6pZCcR6UkmkTnqAOq8rChZBbOOs4&callback=initMap">
+	    </script>
+	    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>   
+		<script src = "bootstrap-datepicker.js"></script>
+  	</head>
+  	<body>
+	  	<div class = "row">
+		    <div id="map" class = "col-lg-8"></div>
+		    <div id = "sidebar" "col-lg-4">
+			    <h1> Pick and Recycle </h1>
+			    <h2> Government view </h2>
+			    <hr>
+			    <h6>test</h6>
+		    </div>
+	  	</div>
+	  	<div class="modal fade" id="squarespaceModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+		  <div class="modal-content">
+		  	  <div class="modal-header">
+		  		  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">X</span></button>
+				  <h3 class="modal-title" id="lineModalLabel">Report Success Form</h3>
+			  </div>
+			  <div class="modal-body">
+				
+	              <!-- content -->
+				  <form>
+	                <div class="form-group">
+	                  <label for="date">Date</label>
+	                  <input type="date" class="form-control" id="date" placeholder="Enter date">
+	                </div>
+	                <div class="form-group">
+	                  <label for="time">Time</label>
+	                  <input type="time" class="form-control" id="time" placeholder="HH:MM">
+	                </div>
+	                <div class="form-group">
+	                  <label for="pickername">Picker Name</label>
+	                  <input type="text" class="form-control" id="pickername" placeholder = "Add a person name here">
+	                </div>
+	                <div class="form-group">
+	                  <label for="supervisor">Supervisor</label>
+	                  <input type="text" class="form-control" id="supervisor" placeholder = "Add a supervisor name here">
+	                </div>
+	              </form>	
+			  </div>
+			  <div class="modal-footer">
+			  	  <div class="btn-group btn-group-right" role="group" aria-label="group button">
+					  <div class="btn-group" role="group">
+						  <button type="button" id="saveImage" class="btn btn-success" data-action="save" role="button">Submit</button>
+					  </div>
+				  </div>
+			  </div>
+		  </div>
+	    </div>
+	  </div>
+	    <script type="text/javascript">
+		    
+		    // Data for the markers consisting of a name, a LatLng and a zIndex for the
+			// order in which these markers should display on top of each other.
+			var beaches = [
+			  ['Bondi Beach', -33.890542, 151.274856, 4],
+			  ['Coogee Beach', -33.923036, 151.259052, 5],
+			  ['Cronulla Beach', -34.028249, 151.157507, 3],
+			  ['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
+			  ['Maroubra Beach', -33.950198, 151.259302, 1]
+			];
+	
+			function initMap() {
+			var map = new google.maps.Map(document.getElementById('map'), {
+			  zoom: 4,
+			  center: {lat: -33.9, lng: 151.2}
+			});
+			setMarkers(map);
+			
+			// Info window string
+			var contentString = 
+			'<div id = "content">'+
+			'<p>test</p>'+
+			'<button data-toggle="modal" data-target="#squarespaceModal" class="btn btn-success center-block">Report Success</button>'+
+			'</div>'
+			;
+			  	
+			var infowindow = new google.maps.InfoWindow({
+			  content: contentString
+			});
+			
+			function setMarkers(map) {
+			  for (var i = 0; i < beaches.length; i++) {
+			    var beach = beaches[i];
+			    var marker = new google.maps.Marker({
+			      position: {lat: beach[1], lng: beach[2]},
+			      map: map,
+			      title: beach[0],
+			      zIndex: beach[3],
+			      animation: google.maps.Animation.DROP
+			    });
+			    google.maps.event.addListener(marker,'click', (function(marker, i) {
+		            return function() {
+		                infowindow.setContent(contentString);
+		                infowindow.open(map, marker);
+		            }
+		        })(marker, i));
+			  }
+			}
+			}
+	    </script>
+  	</body>
+</html>
