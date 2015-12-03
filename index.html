@@ -14,11 +14,14 @@
   	<body>
 	  	<div class = "row">
 		    <div id="map" class = "col-lg-8"></div>
-		    <div id = "sidebar" "col-lg-4">
-			    <h1> Pick and Recycle </h1>
-			    <h2> Government view </h2>
-			    <hr>
-			    <h6>test</h6>
+		    <div id = "sidebar" class = "text-center" "col-lg-4">
+			    <img id = "icon" src = "pickleicon.png" width="100" height="100">
+			    <div id = "sidebartext">
+				    <h1> Pick and Recycle </h1>
+				    <h2> Government view </h2>
+				    <hr>
+				    <h6>test</h6>
+			    </div>
 		    </div>
 	  	</div>
 	  
@@ -91,7 +94,8 @@
 	    </div>
 	  </div>
 	    <script type="text/javascript">
-		    var beaches = [];
+
+		    var locations = [];
 		    
 		    // Data for the markers consisting of a name, a LatLng and a zIndex for the
 			// order in which these markers should display on top of each other.
@@ -138,17 +142,48 @@
 						'</div>'
 						;
 						listString.push(contentString);
-					    beaches.push([description,parseFloat(latitude),parseFloat(longitude),i+1]);
+					    locations.push([description,parseFloat(latitude),parseFloat(longitude),i+1]);
 			    	}
 			    }
 				initMap();
 			}
 	
 			function initMap() {
+				
+			var styles = [
+			  {
+			    featureType: "all",
+			    stylers: [
+				  { hue : "#00B5B5" },
+			      { saturation: -50 }
+			    ]
+			  },{
+			    featureType: "road.arterial",
+			    elementType: "geometry",
+			    stylers: [
+			      { hue: "#F1654C" },
+			      { saturation: 50 }
+			    ]
+			  },{
+			    featureType: "poi.business",
+			    elementType: "labels",
+			    stylers: [
+			      { visibility: "off" }
+			    ]
+			  }
+			];
+			
+			var styledMap = new google.maps.StyledMapType(styles,{name: "Styled Map"});
+    
 			var map = new google.maps.Map(document.getElementById('map'), {
 			  zoom: 11,
-			  center: {lat: -6.207688,lng: 106.845552}
+			  center: {lat: -6.207688,lng: 106.845552},
+			  mapTypeControlOptions: {
+			      mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style']
+			  }
 			});
+			map.mapTypes.set('map_style', styledMap);
+			map.setMapTypeId('map_style');
 			setMarkers(map);
 			
 			// Info window string
@@ -165,8 +200,8 @@
 			});
 			
 			function setMarkers(map) {
-			  for (var i = 0; i < beaches.length; i++) {
-			    var beach = beaches[i];
+			  for (var i = 0; i < locations.length; i++) {
+			    var beach = locations[i];
 			    var marker = new google.maps.Marker({
 			      position: {lat: beach[1], lng: beach[2]},
 			      map: map,
