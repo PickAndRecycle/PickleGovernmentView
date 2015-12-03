@@ -10,8 +10,7 @@
 	    </script>
 	    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>   
-		<script src = "bootstrap-datepicker.js"></script>
-  	</head>
+	</head>
   	<body>
 	  	<div class = "row">
 		    <div id="map" class = "col-lg-8"></div>
@@ -22,6 +21,36 @@
 			    <h6>test</h6>
 		    </div>
 	  	</div>
+	  
+	  	<script>
+	  	/*
+		  	var xmlhttp = new XMLHttpRequest();
+		  	var url = "http://104.155.237.238:8080/trash/";
+		  	xmlhttp.onreadystatechange = function() {
+			  	if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				  	var myArr = JSON.parse(xmlhttp.responseText);
+				  	myFunction(myArr);
+				}
+			};
+			xmlhttp.open("GET", url, true);
+			xmlhttp.send();
+
+			
+			function myFunction(arr) {
+			    var result = arr.result;
+			    var latitude = result[11].latitude;
+			    var longitude = result[11].longitude;
+			    console.log(latitude);
+			    console.log(longitude);
+			    
+			    for(i = 0; i < arr.length; i++) {
+			        out += '<a href="' + arr[i].url + '">' + 
+			        arr[i].display + '</a><br>';
+			    }
+			    
+			}
+			*/
+	  	</script>
 	  	<div class="modal fade" id="squarespaceModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
 	    <div class="modal-dialog">
 		  <div class="modal-content">
@@ -65,12 +94,50 @@
 		    
 		    // Data for the markers consisting of a name, a LatLng and a zIndex for the
 			// order in which these markers should display on top of each other.
+			var xmlhttp = new XMLHttpRequest();
+		  	var url = "http://104.155.237.238:8080/trash/";
+		  	var latitude;
+		  	var longitude;
+		  	xmlhttp.onreadystatechange = function() {
+			  	if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				  	var myArr = JSON.parse(xmlhttp.responseText);
+				  	latitude = myFunction(myArr);
+				  	/*
+				  	var result = myArr.result;
+				  	latitude = result[11].latitude;
+				  	longitude = result[11].longitude;
+				  	console.log(longitude);
+				  	*/
+				}
+			};
+			xmlhttp.open("GET", url, true);
+			xmlhttp.send();
+			
+			
+			
+			function myFunction(arr) {
+			    var result = arr.result;
+			    latitude = result[11].latitude;
+			    longitude = result[11].longitude;
+			    console.log(latitude);
+			    console.log(longitude);
+			    return latitude;
+			    /*
+			    for(i = 0; i < arr.length; i++) {
+			        out += '<a href="' + arr[i].url + '">' + 
+			        arr[i].display + '</a><br>';
+			    }
+			    */
+			}
+			console.log(latitude);
+			console.log(longitude);
 			var beaches = [
 			  ['Bondi Beach', -33.890542, 151.274856, 4],
 			  ['Coogee Beach', -33.923036, 151.259052, 5],
 			  ['Cronulla Beach', -34.028249, 151.157507, 3],
 			  ['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
-			  ['Maroubra Beach', -33.950198, 151.259302, 1]
+			  ['Maroubra Beach', -33.950198, 151.259302, 1],
+			  ['Rumah Tsabita', parseFloat(latitude),parseFloat(longitude),6]
 			];
 	
 			function initMap() {
