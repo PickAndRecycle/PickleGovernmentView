@@ -91,12 +91,7 @@
 	    </div>
 	  </div>
 	    <script type="text/javascript">
-		    var beaches = [
-			  ['Bondi Beach', -33.890542, 151.274856, 4],
-			  ['Coogee Beach', -33.923036, 151.259052, 5],
-			  ['Cronulla Beach', -34.028249, 151.157507, 3],
-			  ['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
-			  ['Maroubra Beach', -33.950198, 151.259302, 1]];
+		    var beaches = [];
 		    
 		    // Data for the markers consisting of a name, a LatLng and a zIndex for the
 			// order in which these markers should display on top of each other.
@@ -104,10 +99,14 @@
 		  	var url = "http://104.155.237.238:8080/trash/";
 		  	var latitude;
 		  	var longitude;
+		  	var description;
+		  	var contentString;
+		  	var listString = [];
+		  	var photo;
 		  	xmlhttp.onreadystatechange = function() {
 			  	if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 				  	var myArr = JSON.parse(xmlhttp.responseText);
-				  	latitude = myFunction(myArr);
+				  	myFunction(myArr);
 				  	/*
 				  	var result = myArr.result;
 				  	latitude = result[11].latitude;
@@ -121,29 +120,46 @@
 			
 			function myFunction(arr) {
 			    var result = arr.result;
-			    latitude = result[11].latitude;
-			    longitude = result[11].longitude;
-			    console.log(latitude);
-			    console.log(longitude);
-			    beaches.push(['Rumah Tsabita',parseFloat(latitude),parseFloat(longitude),6]);
+			    for(i = 0; i<result.length; i++){
+			    	if(result[i].report){
+				    	latitude = result[i].latitude;
+					    longitude = result[i].longitude;
+					    description = result[i].description;
+					    photo = result[i].photo_url;
+					    console.log(latitude);
+					    console.log(longitude);
+					    console.log(description);
+					    console.log(photo);
+					    contentString = 
+						'<div id = "content">'+
+						'<img src=\"' + photo + '\" width=\"100\" height=\"150\">' + '<br>' +
+						'<p>' + description +'</p>'+
+						'<button data-toggle="modal" data-target="#squarespaceModal" class="btn btn-success center-block">Report Success</button>'+
+						'</div>'
+						;
+						listString.push(contentString);
+					    beaches.push([description,parseFloat(latitude),parseFloat(longitude),i+1]);
+			    	}
+			    }
 				initMap();
 			}
 	
 			function initMap() {
 			var map = new google.maps.Map(document.getElementById('map'), {
-			  zoom: 4,
-			  center: {lat: -33.9, lng: 151.2}
+			  zoom: 11,
+			  center: {lat: -6.207688,lng: 106.845552}
 			});
 			setMarkers(map);
 			
 			// Info window string
+			/*
 			var contentString = 
 			'<div id = "content">'+
-			'<p>test</p>'+
+			'<p>' + description +'</p>'+
 			'<button data-toggle="modal" data-target="#squarespaceModal" class="btn btn-success center-block">Report Success</button>'+
 			'</div>'
 			;
-			  	
+			*/
 			var infowindow = new google.maps.InfoWindow({
 			  content: contentString
 			});
@@ -160,7 +176,7 @@
 			    });
 			    google.maps.event.addListener(marker,'click', (function(marker, i) {
 		            return function() {
-		                infowindow.setContent(contentString);
+		                infowindow.setContent(listString[i]);
 		                infowindow.open(map, marker);
 		            }
 		        })(marker, i));
