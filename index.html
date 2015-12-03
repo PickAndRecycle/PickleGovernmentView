@@ -91,6 +91,12 @@
 	    </div>
 	  </div>
 	    <script type="text/javascript">
+		    var beaches = [
+			  ['Bondi Beach', -33.890542, 151.274856, 4],
+			  ['Coogee Beach', -33.923036, 151.259052, 5],
+			  ['Cronulla Beach', -34.028249, 151.157507, 3],
+			  ['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
+			  ['Maroubra Beach', -33.950198, 151.259302, 1]];
 		    
 		    // Data for the markers consisting of a name, a LatLng and a zIndex for the
 			// order in which these markers should display on top of each other.
@@ -113,32 +119,15 @@
 			xmlhttp.open("GET", url, true);
 			xmlhttp.send();
 			
-			
-			
 			function myFunction(arr) {
 			    var result = arr.result;
 			    latitude = result[11].latitude;
 			    longitude = result[11].longitude;
 			    console.log(latitude);
 			    console.log(longitude);
-			    return latitude;
-			    /*
-			    for(i = 0; i < arr.length; i++) {
-			        out += '<a href="' + arr[i].url + '">' + 
-			        arr[i].display + '</a><br>';
-			    }
-			    */
+			    beaches.push(['Rumah Tsabita',parseFloat(latitude),parseFloat(longitude),6]);
+				initMap();
 			}
-			console.log(latitude);
-			console.log(longitude);
-			var beaches = [
-			  ['Bondi Beach', -33.890542, 151.274856, 4],
-			  ['Coogee Beach', -33.923036, 151.259052, 5],
-			  ['Cronulla Beach', -34.028249, 151.157507, 3],
-			  ['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
-			  ['Maroubra Beach', -33.950198, 151.259302, 1],
-			  ['Rumah Tsabita', parseFloat(latitude),parseFloat(longitude),6]
-			];
 	
 			function initMap() {
 			var map = new google.maps.Map(document.getElementById('map'), {

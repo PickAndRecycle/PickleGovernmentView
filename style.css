@@ -4,7 +4,8 @@
 html, body { 
 	height: 100vh;
 	margin: 0; 
-	overflow: hidden;	 
+	overflow: hidden;	
+	font-family: 'Montserrat'; 
 }
 
 #map { 
@@ -16,6 +17,10 @@ html, body {
 #sidebar {
 	height: 100vh;
 	background-color: #FFFFFF;
+}
+
+#content {
+	font-family: 'Montserrat';
 }
 
 /* modal thingy */
@@ -42,3 +47,5 @@ html, body {
 .modal-footer .btn-group:last-child > button {
 	border-right: 0;
 }
+
+@import url("http://fonts.googleapis.com/css?family=Montserrat");
