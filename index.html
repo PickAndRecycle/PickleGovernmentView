@@ -20,40 +20,10 @@
 				    <h1> Pick and Recycle </h1>
 				    <h2> Government view </h2>
 				    <hr>
-				    <h6>test</h6>
+				    <!--<h6>test</h6>-->
 			    </div>
 		    </div>
 	  	</div>
-	  
-	  	<script>
-	  	/*
-		  	var xmlhttp = new XMLHttpRequest();
-		  	var url = "http://104.155.237.238:8080/trash/";
-		  	xmlhttp.onreadystatechange = function() {
-			  	if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				  	var myArr = JSON.parse(xmlhttp.responseText);
-				  	myFunction(myArr);
-				}
-			};
-			xmlhttp.open("GET", url, true);
-			xmlhttp.send();
-
-			
-			function myFunction(arr) {
-			    var result = arr.result;
-			    var latitude = result[11].latitude;
-			    var longitude = result[11].longitude;
-			    console.log(latitude);
-			    console.log(longitude);
-			    
-			    for(i = 0; i < arr.length; i++) {
-			        out += '<a href="' + arr[i].url + '">' + 
-			        arr[i].display + '</a><br>';
-			    }
-			    
-			}
-			*/
-	  	</script>
 	  	<div class="modal fade" id="squarespaceModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
 	    <div class="modal-dialog">
 		  <div class="modal-content">
@@ -64,7 +34,7 @@
 			  <div class="modal-body">
 				
 	              <!-- content -->
-				  <form>
+				  <form id ="reportsubmit" method="post" action="index.html">
 	                <div class="form-group">
 	                  <label for="date">Date</label>
 	                  <input type="date" class="form-control" id="date" placeholder="Enter date">
@@ -86,7 +56,7 @@
 			  <div class="modal-footer">
 			  	  <div class="btn-group btn-group-right" role="group" aria-label="group button">
 					  <div class="btn-group" role="group">
-						  <button type="button" id="saveImage" class="btn btn-success" data-action="save" role="button">Submit</button>
+						  <input type="submit" action="index.html" class = "btn btn-success" value="Submit"/>
 					  </div>
 				  </div>
 			  </div>
@@ -111,12 +81,6 @@
 			  	if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 				  	var myArr = JSON.parse(xmlhttp.responseText);
 				  	myFunction(myArr);
-				  	/*
-				  	var result = myArr.result;
-				  	latitude = result[11].latitude;
-				  	longitude = result[11].longitude;
-				  	console.log(longitude);
-				  	*/
 				}
 			};
 			xmlhttp.open("GET", url, true);
@@ -135,7 +99,7 @@
 					    console.log(description);
 					    console.log(photo);
 					    contentString = 
-						'<div id = "content">'+
+						'<div id = "content" class = "text-center">'+
 						'<img src=\"' + photo + '\" width=\"100\" height=\"150\">' + '<br>' +
 						'<p>' + description +'</p>'+
 						'<button data-toggle="modal" data-target="#squarespaceModal" class="btn btn-success center-block">Report Success</button>'+
@@ -186,27 +150,18 @@
 			map.setMapTypeId('map_style');
 			setMarkers(map);
 			
-			// Info window string
-			/*
-			var contentString = 
-			'<div id = "content">'+
-			'<p>' + description +'</p>'+
-			'<button data-toggle="modal" data-target="#squarespaceModal" class="btn btn-success center-block">Report Success</button>'+
-			'</div>'
-			;
-			*/
 			var infowindow = new google.maps.InfoWindow({
 			  content: contentString
 			});
 			
 			function setMarkers(map) {
 			  for (var i = 0; i < locations.length; i++) {
-			    var beach = locations[i];
+			    var report = locations[i];
 			    var marker = new google.maps.Marker({
-			      position: {lat: beach[1], lng: beach[2]},
+			      position: {lat: report[1], lng: report[2]},
 			      map: map,
-			      title: beach[0],
-			      zIndex: beach[3],
+			      title: report[0],
+			      zIndex: report[3],
 			      animation: google.maps.Animation.DROP
 			    });
 			    google.maps.event.addListener(marker,'click', (function(marker, i) {
